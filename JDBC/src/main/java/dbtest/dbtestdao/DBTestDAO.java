@@ -1,8 +1,10 @@
 package dbtest.dbtestdao;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import dbtest.dbtestdto.DBTestDTO;
@@ -66,6 +68,75 @@ public class DBTestDAO {
 			}
 		}
 		return su;
+	}
+	
+	public int update(DBTestDTO dto) {
+		Connection con = null;
+		PreparedStatement ps = null;
+		String sql = "update dbtest set age=?, height=? where name=?";
+		int su = 0;
+		
+		try {
+			con = this.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, dto.getAge());
+			ps.setDouble(2, dto.getHeight());
+			ps.setString(3, dto.getName());
+			
+			su = ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return su;
+	}
+	
+	public void select() {
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String sql = "select * from dbtest";
+		
+		try {
+			con = this.getConnection();
+			ps = con.prepareStatement(sql);
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				/*
+				String name = rs.getString(1); //columindex
+				int age = rs.getInt(2);
+				double height = rs.getDouble(3);
+				Date logtime = rs.getDate(4);
+				*/
+				String name = rs.getString("name"); //columindex
+				int age = rs.getInt("age");
+				double height = rs.getDouble("height");
+				Date logtime = rs.getDate("logtime");
+				
+				
+				System.out.println(name+"\t"+age+"\t"+height+"\t"+logtime);
+			}
+			
+		}catch (SQLException e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		} finally {
+			try {
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	
 	}
 	
 }
