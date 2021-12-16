@@ -1,0 +1,164 @@
+package student.Student;
+
+import java.util.Scanner;
+
+import student.StudentDTO.StudentDTO;
+import student.studentDAO.StudentDAO;
+
+public class Student {
+	private final Scanner sc = new Scanner(System.in);
+	
+	public Student() {
+		menu();
+	}
+	
+	private void menu() { //클래스 안에서만 동작하므로 Private
+		while(true){
+			System.out.print("****************\r\n" + 
+					"   관리\r\n" + 
+					"****************\r\n" + 
+					"  1. 입력\r\n" + 
+					"  2. 검색\r\n" + 
+					"  3. 수정\r\n" + 
+					"  4. 삭제\r\n" + 
+					"  5. 종료\r\n" + 
+					"****************\r\n" + 
+					"  번호선택 : ");
+			
+			int select = sc.nextInt();
+			
+			switch(select) {
+			case 1 :
+				insertArticle();
+				break;
+			case 2:
+				selectArticle();
+				break;
+			case 3:
+			case 4:
+				deleteArticle();
+				break;
+			case 5:
+				exit(); // 종료 메소드 작성
+				break;
+			default:
+				System.out.println("잘못된 메뉴 입력!");
+			}
+		}
+	}
+	private void exit() {
+		System.out.println("프로그램을 종료합니다.");
+		sc.close();
+		System.exit(0);
+	}
+	
+	private void insertArticle() {
+		int code = codeInput(); 			// 확장성을 위한 입력 메소드 작성
+		if(code==4) {
+			return;
+		} else if(code <1 || code >4) {
+			System.out.println("잘못된 선택입니다");
+			return;
+		}
+		
+		String name = nameInput("");
+		String value = valueInput(code);
+		
+		StudentDTO dto = new StudentDTO(name, value, code);
+		
+		StudentDAO dao = new StudentDAO();
+		
+		boolean check = dao.insert(dto);		//결과창 출력을 위한 Boolean
+		
+		if(check) {
+			System.out.println(name + "님의 정보가 추가 되었습니다.");
+		}else {
+			System.out.println("정보 추가에 실패하였습니다.");
+		}
+		
+	}
+	private void selectArticle() {
+		int choose = chooseInput();
+		
+		if(choose==4) {
+			return;
+		} else if(choose <1 || choose >4) {
+			System.out.println("잘못된 선택입니다");
+			return;
+		}
+		
+		if(choose==1) {
+			String name = nameInput("검색할");
+			StudentDTO dto = new StudentDTO(name);
+			StudentDAO dao = new StudentDAO();
+			dao.select(dto,choose);
+		} else if( choose==2) {
+			int code = codeInput();
+			StudentDTO dto = new StudentDTO(code);
+			StudentDAO dao = new StudentDAO();
+			dao.select(dto,choose);
+		} else {
+			StudentDTO dto = new StudentDTO();
+			StudentDAO dao = new StudentDAO();
+			dao.select(dto,choose);
+		}
+	}
+	
+	private void deleteArticle() {
+		String name = nameInput("");
+		
+		StudentDTO dto = new StudentDTO(name);
+		StudentDAO dao = new StudentDAO();
+		
+		boolean check = dao.delete(dto);
+		
+		if(check) {
+			System.out.println(name + "님의 정보가 삭제 되었습니다.");
+		}else {
+			System.out.println("정보 삭제에 실패하였습니다.");
+		}
+		
+	}
+	
+	private int chooseInput() {
+		System.out.print(
+				"****************\r\n" + 
+				"  1. 이름검색\r\n" + 
+				"  2. 코드검색\r\n" + 
+				"  3. 전체검색\r\n" + 
+				"  4. 이전으로\r\n" + 
+				"****************\r\n" + 
+				"  번호선택 : ");
+		int select = sc.nextInt();
+		
+		return select; 
+	}
+	private int codeInput() {
+		System.out.print("****************\r\n"
+				+ "   1. 학생\r\n"
+				+ "   2. 교수\r\n"
+				+ "   3. 관리자\r\n"
+				+ "   4. 이전메뉴\r\n"
+				+ "****************\r\n"
+				+ "   번호선택 : ");
+		int code = sc.nextInt();
+		
+		return code;
+	}
+	
+	private String nameInput(String msg) {
+		System.out.print(msg + "이름 입력 : ");
+		String name = sc.next();
+		return name;
+	}
+	private String valueInput(int code) {
+		if(code==1) {
+			System.out.print("학번 입력 : ");
+		} else if (code==2) {
+			System.out.print("과목 입력");
+		} else {
+			System.out.print("부서 입력");
+		}
+		return sc.next();
+	}
+}
