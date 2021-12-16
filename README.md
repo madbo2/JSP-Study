@@ -18,5 +18,8 @@ DB SQL Query를 이용한 Java Service.
 각 요소들을 Class로 나누어 작성.
 Student Directory https://github.com/madbo2/JSP-Study/blob/main/Student/src/main/java/Main.java
 
+2021.12.16<br>
+15일 작성한 Code 개선하여 작성. DAO와 DTO의 기본 구조를 최대한 지키며 각 기능별 Method 세분화.
+Link : https://github.com/madbo2/JSP-Study/tree/main/Student_improvement
 
 
