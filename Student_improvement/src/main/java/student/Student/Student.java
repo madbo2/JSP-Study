@@ -35,6 +35,8 @@ public class Student {
 				selectArticle();
 				break;
 			case 3:
+				updateArticle2();
+				break;
 			case 4:
 				deleteArticle();
 				break;
@@ -70,6 +72,7 @@ public class Student {
 		
 		boolean check = dao.insert(dto);		//결과창 출력을 위한 Boolean
 		
+		
 		if(check) {
 			System.out.println(name + "님의 정보가 추가 되었습니다.");
 		}else {
@@ -82,7 +85,7 @@ public class Student {
 		
 		if(choose==4) {
 			return;
-		} else if(choose <1 || choose >4) {
+		} else if(choose < 1 || choose > 4) {
 			System.out.println("잘못된 선택입니다");
 			return;
 		}
@@ -91,7 +94,7 @@ public class Student {
 			String name = nameInput("검색할");
 			StudentDTO dto = new StudentDTO(name);
 			StudentDAO dao = new StudentDAO();
-			dao.select(dto,choose);
+			dao.select(dto, choose);
 		} else if( choose==2) {
 			int code = codeInput();
 			StudentDTO dto = new StudentDTO(code);
@@ -103,6 +106,74 @@ public class Student {
 			dao.select(dto,choose);
 		}
 	}
+	
+	// 1차 수정 코드
+	private void updateArticle() {
+		String name = nameInput("수정할 ");
+		int code = codeInput();
+		String value = valueInput(code);
+		
+		StudentDTO dto = new StudentDTO(name,value, code);
+		StudentDAO dao = new StudentDAO();
+		
+		dao.select(dto, 1);
+		
+		int su = dao.update(dto);
+		
+		if(su!=0) {
+			System.out.println(name + "님의 정보가 성공적으로 수정되었습니다.");
+		} else {
+			System.out.println("수정 작업에 실패하였습니다.");
+		}
+	}
+	
+	private void updateArticle2() {
+		String name  = nameInput("수정할 ");
+		
+		StudentDAO dao = new StudentDAO();
+		
+		StudentDTO dto = dao.selectOne(name); // 1개의 레코드만검색하는 메소드
+		
+		if(dto == null) {
+			System.out.println("검색 실패 이전메뉴로 돌아갑니다.");
+			return;
+		}
+		System.out.println(dto.getName()+"님의 정보");
+		System.out.println(valueString(dto.getCode())+dto.getvalue());
+		
+		int code = codeInput();
+		
+		if(code == 4) {
+			return;
+		}else if(code < 1 || code > 4) {
+			System.out.println("잘못된 선택!..이전 메뉴로..");
+			return;
+		}
+		
+		String value = valueInput(code);
+		
+		dto.setValue(value);
+		dto.setCode(code);
+		
+		int su = dao.update(dto);
+		
+		if(su!=0) {
+			System.out.println(name + "님의 정보가 성공적으로 수정되었습니다.");
+		} else {
+			System.out.println("수정 작업에 실패하였습니다.");
+		}
+		
+	}
+	private String valueString(int code) {
+		if(code == 1) {
+			return "학번 : ";
+		} else if (code==2) {
+			return "과목 : ";
+		} else {
+			return "부서 : ";
+		}
+	}
+	
 	
 	private void deleteArticle() {
 		String name = nameInput("");
@@ -155,9 +226,9 @@ public class Student {
 		if(code==1) {
 			System.out.print("학번 입력 : ");
 		} else if (code==2) {
-			System.out.print("과목 입력");
+			System.out.print("과목 입력 : ");
 		} else {
-			System.out.print("부서 입력");
+			System.out.print("부서 입력 : ");
 		}
 		return sc.next();
 	}
