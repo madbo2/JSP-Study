@@ -3,6 +3,7 @@ package student.studentDAO;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.PseudoColumnUsage;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -105,7 +106,8 @@ public class StudentDAO {
 			
 		
 	}
-	
+	//2번째 수정한 코드
+	//전체 검색
 	public List<StudentDTO> selectAll(String name) {
 		// list 처리를 통해 결과값을 반환함.
 		// DAO원칙은 DAO내부에서 데이터를 출력하면 안됌.
@@ -145,7 +147,54 @@ public class StudentDAO {
 		return list;
 	}
 	
-	
+	public List<StudentDTO> select(StudentDTO dto){
+		List<StudentDTO> list = new ArrayList<StudentDTO>();
+		
+		String sql = null;
+		
+		if(dto == null) {
+			sql = "select * from student";
+		} else if(dto.getName() != null) {
+			sql = "select * from student where name like ?";
+		} else {
+			sql = "select * from student where code = ?";
+		}
+		
+		try {
+			this.getConnection();
+			ps = con.prepareStatement(sql);
+			if(dto != null) {
+				if(dto.getName() != null) {
+					ps.setString(1,"%"+ dto.getName() + "%");
+				} else {
+					ps.setInt(1, dto.getCode());
+				}
+			}
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				String name = rs.getString("name");
+				String value = rs.getString("value");
+				int code = rs.getInt("code");
+				
+				StudentDTO dt = new StudentDTO(name, value, code);
+				list.add(dt);
+			}	
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(list.isEmpty()) {
+			list = null;
+		}
+		return list;
+	}
 	
 	// SQL 선택문
 	private String sqlSelect(int choose) {

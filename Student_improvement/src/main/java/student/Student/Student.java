@@ -1,5 +1,6 @@
 package student.Student;
 
+import java.util.List;
 import java.util.Scanner;
 
 import student.StudentDTO.StudentDTO;
@@ -32,7 +33,7 @@ public class Student {
 				insertArticle();
 				break;
 			case 2:
-				selectArticle();
+				selectArticle1();
 				break;
 			case 3:
 				updateArticle2();
@@ -80,6 +81,8 @@ public class Student {
 		}
 		
 	}
+	
+	//1차로 바꾼 Select Function
 	private void selectArticle() {
 		int choose = chooseInput();
 		
@@ -104,6 +107,55 @@ public class Student {
 			StudentDTO dto = new StudentDTO();
 			StudentDAO dao = new StudentDAO();
 			dao.select(dto,choose);
+		}
+	}
+	
+	//2차로 수정한 Select Function
+	private void selectArticle1() {
+		int select = chooseInput();
+		
+		if(select == 4) {
+			System.out.println("이전 메뉴로 돌아갑니다.");
+		} else if(select <1 || select >4) {
+			System.out.println("잘못된 선택입니다. 이전메뉴로 돌아갑니다");
+			return;
+		}
+		
+		StudentDTO dto = null;
+		
+		if(select == 1) {
+			dto = new StudentDTO();
+			System.out.println("검색할 이름 입력 : ");
+			dto.setName(sc.next());
+		} else if (select == 2) {
+			int code = codeInput();
+			if(select ==4) {
+				System.out.println("이전 메뉴로");
+				return;
+			} else if( select <1 || select > 4) {
+				System.out.println("잘못된 선택입니다.");
+				return;
+			}
+			dto = new StudentDTO();
+			dto.setCode(code);
+		}
+		StudentDAO dao = new StudentDAO();
+		
+		List<StudentDTO> list = dao.select(dto);
+		
+		if(list == null) {
+			System.out.println("검색 결과가 없습니다.");
+		} else {
+			for(StudentDTO d : list) {
+				System.out.print("이름 : " + d.getName() + "\t");
+				if(d.getCode() == 1) {
+					System.out.println("학번 : " + d.getvalue());
+				}else if(d.getCode() == 2) {
+					System.out.println("과목 : " + d.getvalue());
+				}else if(d.getCode() == 3) {
+					System.out.println("부서 : " + d.getvalue());
+				}
+			}
 		}
 	}
 	
