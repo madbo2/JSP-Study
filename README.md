@@ -1,4 +1,4 @@
-<H1><B>JSP-Study</b></H1>
+<H1><B>JSP-Study 📕</b></H1>
 
 <H3>🛠Tools<br></H3>
 Oracle 18C XE (sqlplus), Eclips 2021-12, JDK-java SE 8, Server - apache Tomcat 9.0
