@@ -32,4 +32,4 @@ Student Directory https://github.com/madbo2/JSP-Study/blob/main/Student/src/main
 
 <H6>2021.12.21<br></H6>
  - JSP file작성, 간단한 multiplication tables 작성, JSP 지시자 학습, 사용
- - 
+ - JSP request API Method 사용, GET POST 형식 사용, parameter 페이지 전달 예제 작성
