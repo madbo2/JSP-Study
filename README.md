@@ -1,9 +1,9 @@
-<H1><B>JSP-Study</b>
+<H1><B>JSP-Study</b></H1>
 
-<H3>🛠Tools<br>
+<H3>🛠Tools<br></H3>
 Oracle 18C XE (sqlplus), Eclips 2021-12, JDK-java SE 8, Server - apache Tomcat 9.0
 
-<H2>2021.12.13<br>
+<H2>2021.12.13<br></H2>
 JDBC의 기본 구조 작성
 Driver Loading , Coneection, ResultSet or PreparedStatement 기본 사용
 
