@@ -33,3 +33,7 @@ Student Directory https://github.com/madbo2/JSP-Study/blob/main/Student/src/main
 <H6>2021.12.21<br></H6>
  - JSP file작성, 간단한 multiplication tables 작성, JSP 지시자 학습, 사용 <br>
  - JSP request API Method 사용, GET POST 형식 사용, parameter 페이지 전달 예제 작성
+
+<H6>2021.12.22<br></H6>
+ - JSP request API POST 기반 예제 페이지 작성. setCharactorEncoding()을 통해 UTF-8로 전달받음. 
+ - javaScript, Document 객체를 이용하여 Dynamic Web function 생성 후 Alert처리
