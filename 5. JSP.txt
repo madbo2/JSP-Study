@@ -1,0 +1,273 @@
+JSP(JAVA Server Page)
+ - 웹페이지를 동적으로 작성하기 위해서 만들어졌다...
+ - JAVA기반으로 만들어 졌다..
+
+ - 실행과정
+ 	.jsp 파일 -> .java파일 -> .class -> 실행
+		      servlet
+
+   - JSP 생명주기(주기함수)
+    1. void _jspInit()	 - 서버 실행시 처음 실행되는 메소드(생성자)
+    2. void _jspService() - 클라이언트 요청시마다 실행되는 메소드
+      	- 멀티 쓰레드 방식으로 요청시마다 실행될수 있도록 대기를 시켜놓는다..
+	- get방식 - doGet()
+ 	- post방식 - doPost()
+    3. void _jspDestroy() - 서버 종료시 객체를 정리하기위해서 실행되는 메소드..
+
+====================================================================================================
+
+<%@  %> - JSP 지시자(지시어)
+ - 페이지가 실행될때 필요한 정보 또는 설정을 지정하는 역할...
+ - 종류
+  - page지시자
+   - 해당 페이지에 대한 정보 및 설정을 지정하는 역할의 지시자...
+    - language - 페이지 내에서 사용할 프로그래밍 언어...
+    - contentType - 페이지 내에서 사용할 언어와 문자 형식을 지정하는 옵션
+    - pageEncoding - 서버내에서 작업할때 사용할 문자 형식을 지정하는 옵션
+    - extends - 상속받으려 하는 상위 클래스를 지정하는 속성
+    - import - 사용하려는 클래스를 지정하는 속성
+    - session - 세션을 사용할지 말지 정하는 속성..true
+    - buffer , autoflush , info , errorPage , isErrorPage 
+    
+  - include지시자
+   - 현재 JSP페이지 내부에 다른 파일을 삽입하기위한 지시자..
+
+  - taglib지시자 - 나중에..
+   - JSP페이지 내에서 사용되는 별도의 표현 언어들을 사용하기위해 쓰는 지시자..
+    - EL/JSTL , 커스텀태그
+
+=============================================================================================
+
+Script 요소 4가지
+ - <%! %> - 선언부
+  - 전역변수 및 메소드를 선언하는 영역
+  - 서블릿에서 멤버 변수 및 멤버 메소드로 변환되는 영역
+  - 가독성을 높이기 위해서 가장 처음 아니면 가장 마지막에 적어준다..
+ - <%  %> - 스크립트릿
+  - 일반적인 코드를 작성하는 영역
+  - Service 메소드의 실행 내용으로 변환되는 코드..
+ - <%= %> - 표현식
+  - 데이터를 표현하는 부분....
+  - print의 인자값....
+ - <%-- --%> - 주석문
+  - 코드의 부연 설명을 적는 부분...
+  - 스크립트는 HTML주석으로 처리하면 실행된다..
+
+==========================================================================================
+
+내장 객체 (Java EE)
+ - jsp가 서블릿으로 변환 될때 자동으로 생성되는 9가지의 객체....
+ - 웹에서 필수적으로 사용되어야 할 객체....
+
+
+ 1.request	javax.servlet.http.HttpServletRequest
+ - Client의 정보를 저장하고 있는 객체. 요청. 
+ - Ex) www.naver.com -> 페이지 Request
+ - request.get method 많음
+
+ 2.response	javax.servlet.http.HttpServletResponse
+ - Server의 응답 정보를 저장하는 객체.
+ - response.setter method 많음
+ - redirect 방식으로 페이지 넘김
+
+ 3.out		javax.servlet.jsp.JspWriter
+ - 출력정보를 담고있는 객체
+
+ 4.session	javax.servlet.http.HttpSession
+ - 프로젝트당 한개만 생성, 세션 정보를 담는 객체 
+
+ 5.application	javax.servlet.ServletContent
+ - 서버의 정보, 서버당 한개만 생성
+
+ 6.pageContext	javax.servlet.jsp.PageContext
+ -Context정보를 담는 객체(설정), Foward방식으로 페이지 넘김
+
+ 7.page		javax.servlet.jsp.HttpJspPage
+ - 서블릿객체 그자체 , this 
+
+ 8.config	javax.servlet.ServletConfig
+ - 초기 설정정보를 담는 객체 
+
+ 9.exception	java.lang.Throwable
+ - 예외처리
+
+===========================================================================================
+
+1.request	javax.servlet.http.HttpServletRequest
+ - 클라이언트가 전송한 요청 정보를 제공하는 객체..
+ - 파라미터를 읽어오는 역할
+    - Client쪽에서 세팅된 정보
+	- attribute : Server쪽에 세팅된 정보
+ - 쿠키를 읽어오는 역할
+   - Client쪽에서 관리되는 정보
+ - 클라이언트와 관련된 정보
+
+ - 파라미터 관련 메소드
+ java.lang.String	getParameter(java.lang.String name) 
+   - 파라미터 값을 받아오는 메소드
+ java.util.Map<java.lang.String,java.lang.String[]>	getParameterMap() 
+   - 전체의 파라미터 값을 이름과 값으로 맵형태로 반환....     
+ java.util.Enumeration<java.lang.String>	getParameterNames() 
+   - 전체의 파라미터의 이름을 반환해주는 메소드      
+ java.lang.String[]	getParameterValues(java.lang.String name) 
+   - 파라미터 값들을 받아오는 메소드(checkbox select태그)...
+
+=============================================================================
+
+2.response	javax.servlet.http.HttpServletResponse
+ - 클라이언트의 요청에 대한 응답정보를 저장하는 객체..
+ - redirect - 다른페이지로 이동시키는 방식 중에 하나..
+ - void	sendRedirect(java.lang.String location)  - redirect방식의 메소드... 
+			ㄴ 페이지 URL
+
+ - 쿠키값을 읽을때는 Request, Setting할때는 Response
+==============================================================================
+
+3.out		javax.servlet.jsp.JspWriter
+ - JSP페이지의 출력할 내용을 가지고 있는 출력 스트림객체...
+
+=================================================================================
+
+4.session	javax.servlet.http.HttpSession
+ - 세션 정보를 담고 있는 객체...
+ - 프로젝트당 한개만 생성된다..
+
+=================================================================================
+
+5.application	javax.servlet.ServletContent
+ - 서버당 한개만 생성되는 객체...
+ - 서버의 정보를 저장하는 객체...
+
+=================================================================================
+
+6.pageContext	javax.servlet.jsp.PageContext
+ - 페이지 실행에 필요한 context정보를 담고 있는 객체.. (설정)
+ - forward 방식
+  - abstract  void	forward(java.lang.String relativeUrlPath) 
+  - pageContext안에있는 forward라는 Method사용 
+
+=================================================================================
+7.page		javax.servlet.jsp.HttpJspPage
+ - this
+ - Object page = this;
+ - 서블릿 객체 그 자체.
+
+=================================================================================
+
+8.config	javax.servlet.ServletConfig
+ - jsp페이지가 서블릿 클래스로 변환될때 참조해야할 초기 설정정보를 저장해 놓은 객체..
+
+=================================================================================
+
+9.exception	java.lang.Throwable
+ - isErrorPage가 true로 지정되어야지만 자동으로 생성되는 객체...
+ - JSP페이지에서 예외가 발생했을 경우 예외를 처리하는 페이지로 전달되는 예외 객체..
+
+==================================================================================
+
+get방식 , post방식
+ - 파라미터의 값을 어떤 방식으로 데이터를 전달할 것이냐...
+  - get방식 - doGet()
+  - post방식 - doPost()
+
+ - 일반적으로 페이지 요청을 하면 get방식으로 처리된다...
+ - form태그의 기본 메소드 방식은 get방식
+
+ - get방식
+  - 전달되는 데이터가 주소를 통해 전달된다...
+  - 데이터가 눈에 보인다..
+  - 보안적인 문제가 없는 데이터를 전달할때 사용한다..
+  - 전송데이터의 길이가 제한이 있다... 2048
+
+Ex)
+https://www.google.com/search?q=df&oq=df&aqs=chrome..69i57j0i433i512j0i512l2j0i433i512j0
+			   ? 이후로 부터 파라미터 값 ,&로 구분지어 파라미터를 나눔
+
+ - post방식
+  - 전달되는 데이터가 헤더를 통해서 데이터가 전달되는 방식
+  - 데이터가 눈에 보이지 않는다..
+  - 보안 또는 개인정보에 관련된 데이터들을 전송할때 사용한다..
+  - 전송 데이터의 길이가 제한이 없다...(파일 업로드)
+
+Ex)
+https://www.google.com/search
+ - post방식은 보이지 않음.
+
+=============================================================================
+
+한글 입력과 페이지에 전달
+
+Get 방식은 URL을 통해 Data를 전달하기 때문에 Result 페이지에 문자 형식을 지정할 수 있음.
+그러나 Post방식은 Data가 Header로 전달되기 때문에 문자형이 무엇인지 Result가 판단할 수 없음.
+그레서 전달하는 송신지에서 문자형식을 request.setCharacterEncoding("UTF-8") 등을 통해 지정해야함.
+Spring Framework 에서는 서버에 위 항목을 설정.
+
+
+
+===================================================
+
+javaScript
+ - 웹문서를 좀 더 동적으로 작성하기 위해서 만들어진 Java기반의 Script Languege
+ - 제이쿼리 , AJAX , ~~~.js 등
+ - 제어문 함수 변수 등을 사용할 수 있다. Python과 유사함
+ - 정의시 보통 Head태그 안에 정의한다. 일반적으로는 파일하나에 별도로 정의하고 가져다 사용한다.
+
+형식
+<script typt = "text/javascript">
+
+	function 함수명(){
+		정의;
+	}
+
+</script>
+
+ - alert(data); - 경고창
+***** - document 객체 (Object document = this) (DOM)
+  - HTML 문서에 대한 모든 정보를 관리하는 객체
+  - 각각의 웹페이지에는 document 객체를 가지게 된다.
+
+
+====================================================
+
+페이지 이동방식
+1. redirect
+ - 브라우저가 다른 페이지를 호출하는 형식
+ - 기본적으로 데이터 공유를 하지 못한다. get방식을 활용하여 데이터 전송은 가능하다.
+   - request안에는 클라이언트 정보값이 저장되어있음. 객체를 새로 만들면 전부 날아감
+ - 다른 페이지로 이동시에 URL이 변경된다.
+ - 페이지를 새로 불러오기 때문에 request와 response객체가 새로 만들어진다.
+
+ - <a> 태그를 이용하는 방식
+ - 내장객체를 이용하는 방식
+  - response객체의 sendRedirect()메소드를 이용하는 방식
+ - 자바스크립트의 내장 객체를 이용하는 방식
+  - document.location.href = "이동할 페이지"
+  - location.href = "이동할 페이지"
+
+2. forward
+ - 서버내에서 다른 페이지로 전환하는 형식
+ - 데이터 공유가 가능하다. (request안에는 클라이언트 정보값이 저장되어있음.)
+ - 다른페이지로 이동시에 URL이 변경되지 않는다.
+ - request와 response객체의 제어권을 다른 페이지로 넘겨주는 방식
+
+ - 내장객체를 이용하는 방식
+   - pageContext객체 안에 forward()메소드를 이용하는 방식
+ - jsp액션태그를 이용하는 방식 - X(Spring에서 안씀)
+   - Java code를 Tag 형식으로 정의하여 사용하는 태그
+ - Java Class를 이용하는 방식 = MVC2에서 이용된다.
+   - RequestDispatcher 객체를 사용하는 형식
+
+request안에는 클라이언트 정보값이 저장되어있음.
+
+=====================================
+MVC 패턴
+ - 디자인패턴
+ - 웹페이즈를 효율적으로 작성하기 위해 만들어진 패턴.
+ - MVC1 과 MVC2 로 나누어진다.  보통은 MVC2(Spring)
+  M - Model   C - Controller   V - View
+
+ M : DB, JAVABean
+ C :  page 이동 관리
+ V : Client에게 보여지는 페이지 .jsp
+
+ - 데이터 처리부분과 Client에게 보여지는 부분이 분리된다.
