@@ -196,7 +196,7 @@ public class StudentDAO {
 		return list;
 	}
 	
-	// SQL 선택문
+	// SQL 선택문 [ 수정 후 사용x ] 
 	private String sqlSelect(int choose) {
 		String sql = null;
 		if(choose == 1) {
