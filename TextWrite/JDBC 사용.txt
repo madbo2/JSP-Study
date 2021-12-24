@@ -1,0 +1,99 @@
+https://docs.oracle.com/javase/8/docs/api/
+
+
+JDBC (JAVA DataBase Connectivity)
+ - JAVA와 Database의 연동을 위한 프로그래밍 API
+ - Java.sql 패키지 안에 정의되어 있다.
+ - Java 프로그램에서 DB를 연동할 때 DBMS의 종류와 상관없이 통합적으로 처리하기 위해서 만들어졌다.
+
+JDBC 프로그래밍 순서
+ 1. JDBC 드라이버 로딩 (Java에서 어떤 DB를 사용할지)
+ 2. 연결관리함수 있는 객체 생성 - Connection 
+ 3. 쿼리 실행을 위한 객체 생성 - PreparedStatement (SQL문을 전송,수신할 객체)
+ 4. 쿼리 실행
+ 5. 결과 사용 - select - ResultSet , Insert delete update - int형
+ 6. ResultSet 종료
+ 7. PreparedStatement 종료
+ 8. Connection 종료
+  ※ JAVA는 Stream 방식이어서 사용된 객체들은 Close 해주어야함 (순차적)
+
+
+JDBC 드라이버 로딩
+ - DBMS마다 별도의 드라이버가 필요하다.
+ - 일반적으로 JAR파일 형태로 DBMS마다 기본적으로 제공한다.
+ - 드라이버 위치
+   - 11G
+      - C:\oraclexe\app\oracle\product\11.2.0\server\jdbc\lib\ojdbc6.jar
+   - 18C
+      - C:\app\계정명\product\18.0.0\dbhomeXE\jdbc\lib\ojdbc8.jar
+
+ - 빌드패스를 통하여 프로젝트에 추가시켜주면 된다.
+ - Class.forName("JDBC드라이버 클래스의 완전한 이름");
+ - 주요 DBMS JDBC 드라이버 클래스
+   - oracle - oracle.jdbc.driver.OracleDriver - 둘다 동일한데 위에건 없어지는중
+              - oracle.jdbc.OracleDriver
+   - MySQL - com.mysql.jdbc.Driver
+   - MS-SQL - com.microsoft.sqlserver.jdbc.SQLServerDriver
+
+ [추가] 
+ - Project명 우클릭 ->Build Path -> Configure Build Path -> Java Bulid Path ->Libraries -> 사진2 참조
+
+-----------------------------------------------------------------------------
+
+2. 연결관리 객체 생성 - Connection 
+ - java.sql.Connection - interface
+   - Java에서 자주 사용되는 interface같은 경우에는 객체 생성을 해서 반환해주는 메소드가 존재
+   - java.sql.DriverManager 클래스 안에 getConnection이라는 메소드를 통하여 객체 생성을 해서 반환
+
+ - url  - 어떤 Data의 정보와 위치를 저장하고 있는 Data.
+   - DB의 위치와 정보를 담고 있는 데이터.
+   - 형식 
+     - jdbc:DBMS명:데이터베이스식별자(Host, Port, SID ... 이부분은 DBMS마다 다름)
+     - jdbc:oracle:드라이버(OCI(별도의 모듈), thin(jar)):@Host(DB가 위치한 IP):Port:SID(설치버전)
+        - jdbc:oracle:thin:@localhost:1521:xe
+   - user = 접속할 계정의 아이디
+   - password = 접속할 계정의 비밀번호 
+
+=======================================================
+
+create table dbtest(
+name	varchar2(15),
+age	number,
+height	number(10,2),
+logtime	date);
+
+=======================================================
+
+3. 쿼리 실행을 위한 객체 생성 - PreparedStatement
+ - java.sql.Statement
+   - 정적쿼리 방식
+   - 쿼리 실행마다 JVM에게 쿼리를 넘겨주어야 한다.
+   - 넘어가는 데이터가 보이는데 이는 보안에 문제가 있다.
+	select * from testmember where name = ' + name + ';
+ - java.sql.PreparedStatement - 웹모듈 3.0버전 이상부터의 권장 방식
+  - 동적쿼리 방식
+  - 객체 생성할때 한번만 JVM에게 쿼리를 넘겨주면 된다.
+  - 필요한 데이터를 JVM에게 넘겨주는 방식 (들어갈 데이터를 ? 처리하여 실행)
+	select * from testmember where name = ?
+
+======================================================
+
+4. 쿼리 실행
+
+ - Query 실행을 위한 Method
+	boolean execute() - X
+ - ResultSet 타입이면 True 아니면 False를 반환
+
+long execute.LargeUpdate() - X
+ - insert , delete, update
+ - 대량의 데이터를 이용할 때 사용
+
+ResultSet executeQuery()
+ - select 문에서 실행 결과를 받을 때 사용하는 메소드
+
+int executeUpdate()
+ - insert, delete, update 문에서 실행 결과를 받을 때 사용하는 메소드
+
+[ 실습해보기 ]
+///이름을 통해서 나이와 키 수정
+

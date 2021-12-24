@@ -1,0 +1,458 @@
+DB(DataBase)
+ - 데이터를 저장하고 관리하는 용도로 만들어진 저장공간
+DBMS(DataBase Management System)
+ - DB에 데이터를 저장하고 관리하는 시스템
+ - Oracle , MySQL , MS-SQL Server , DB2 , SQLite , MariaDB ...
+
+SQL(Structured Query Language)
+ - DB명령어
+ - 구조화된 언어
+  - 일정한 규칙 또는 틀 안에 패턴들이 존재한다..
+  - 규칙 및 패턴을 파악하면 사용하기가 쉽다..
+ - SQL표준이 존재한다...큰틀은 정해져 있다...DB마다 조금씩 다르다...
+ - 질의어 - 묻고 답하기..
+
+ - SQL문의 종류
+  - DML(Manipulation) - 데이터 조작
+  - DDL(Definition) - 데이터베이스 구조 정의
+  - DCL(Control) - 데이터 베이스 컨트롤 ( ; 필수 )
+
+===================================================================
+
+sys계정 접속
+ - conn/as sysdba
+
+계정 접속
+ - conn 아이디/패스워드
+
+접속 계정 확인
+ - show user
+
+
+HTTP 리스너 포트 확인
+ - select dbms_xdb.gethttpport() from dual;
+
+HTTP 리스너 포트 변경
+ - exec dbms_xdb.sethttpport(포트번호);
+  
+  exec dbms_xdb.sethttpport(9090);
+
+================================================================
+
+CRUD - 생성 , 읽기 , 수정 , 삭제
+
+DDL에 대한 CRUD
+ - C - create
+ - R - select
+ - U - alter
+ - D - drop
+
+계정생성
+ - create user 계정명 identified by 비밀번호;
+ 	id : c##jsp , password : jsp
+ 
+  create user c##jsp identified by jsp;
+
+※ 12c이상에서는 사용자 계정에 대한 룰이 존재한다...
+  - c##을 계정명앞에 붙여주어야 한다..
+
+유저 계정 권한 설정
+ - grant 권한1,권한2,권한3..... to 아이디;
+
+ - 권한
+  - connect - 연결 권한
+  - resource - 자원 접근 권한
+
+  - dba - 관리자 권한
+
+ 	grant connect,resource to c##jsp;
+
+
+계정 비밀번호 수정
+ - alter user 아이디 identified by 바꿀 비밀번호;
+
+  alter user c##jsp identified by oracle;
+
+
+계정 삭제 
+ - drop user 아이디;
+   drop user c##jsp;
+
+ - 데이터가 있는 계정 삭제시
+   drop user 아이디 cascade; (참조하는 값을 전부 null로 초기화하고 강제적으로 관계를 삭제)
+
+=========================================================================
+
+테이블(table)
+ - 데이터를 저장하기위한 틀
+ - 일반적인 표
+  - 분류 - 컬럼 , 필드
+  - 데이터 - 레코드
+
+-------------------------------------------------------------------------
+
+DB에서의 자료형
+ - 숫자형 - 정수 , 실수
+  - number - 총 38자리
+  - number(n) - n자리
+  - number(n,m) - n자리 , 소수점 m번째 자리까지...
+ - 문자형 - 문자 , 문자열 - ''
+  - char(n)	 - 고정 - 2000byte - X
+  - varchar2(n)	 - 가변 - 4000byte
+  - 영문자 , 숫자 - 1byte
+  - 한글 - 3byte
+ - 날짜형
+  - date
+  - 기본형태
+   - yy/MM/dd hh:mm:ss
+
+=====================================================================================
+
+Table 생성 - DDL
+ - create table 테이블명(컬럼명 컬럼타입 제약조건,컬럼명 컬럼타입,컬럼명 컬럼타입....);
+
+
+create table sample(
+num number,
+name varchar2(10),
+reg date
+);
+
+계정 내부에 있는 테이블 목록 확인
+ - select * from tab;
+
+테이블 상세확인 
+ - desc 테이블명;
+
+테이블 복사
+ - create table 테이블명 as select * from 복사할테이블명;
+
+	create table sample1 as select * from sample;
+
+테이블 수정
+ - 필드 수정
+	alter table 테이블명 modify(필드명 필드타입,필드명 필드타입,필드명 필드타입,..);
+ - 필드 추가
+	alter table 테이블명 add(필드명 필드타입,필드명 필드타입,필드명 필드타입,..);
+ - 필드 삭제
+	alter table 테이블명 drop(필드명,필드명..);
+
+테이블 삭제
+ - drop table 테이블명;
+
+---------------------------------------------
+
+휴지통 보기
+ - show recyclebin;
+
+휴지통 테이블 선택 삭제
+ - purge table 테이블명;
+
+휴지통 비우기
+ - purge recyclebin;
+
+휴지통 복원
+ - flashback table 테이블명 to before drop;
+
+ - flashback table 테이블명 to before drop rename to 테이블명;
+
+============================================================================
+
+DML에서의 CRUD
+C - insert
+R - select
+U - update
+D - delete
+
+레코드(데이터) 추가
+ - insert into 테이블명(필드1,필드2,필드3.....) values(데이터1,데이터2,데이터3....);
+
+
+	insert into sample(num,name,reg) values(1,'김민준',to_date('2021-11-12'));
+	insert into sample values(2,'김종국','1976/4/25');
+	insert into sample(reg,num) values(sysdate,3);
+
+※ 18C 일반 유저에게 table에 데이터를 입력할수 있는 권한을 주지 않는다...
+  별도의 권한을 함께 주어야 데이터를 입력할수 있다...
+
+ - alter user 계정명 default tablespace users quota unlimited on users;
+
+	alter user c##jsp default tablespace users quota unlimited on users;
+
+
+데이터 전체 검색
+ - select * from 테이블명
+
+---------------------------------------------------------------------------------------
+
+트랜젝션
+ - 하나의 작업 단위
+ - DML에 한해서 작동이 된다....
+
+ - 작업 저장 - commit;
+ - 작업 되돌리기 - rollback;
+
+=========================================================================
+
+시퀀스 - oracle에서만 존재..
+ - 어떤 중복되지 않는 번호를 붙일때 사용하는 객체...
+
+생성
+ - create sequence 시퀀스명 옵션1 옵션2 옵션3.....;
+
+	create sequence test_seq;
+
+ - 옵션
+	start with 시작값
+ 	minvalue 최소값 (1)
+	maxvalue 최대값
+	increment by 증감값 (default 1)
+	cycle / nocycle	( 반복유무 (Ex. 1~100 -> 다시 )
+	order / noorder	( 정렬 )
+	cache 값 / nocache	(cache 사용을 하면 메모리에 상주하여 필요할때마다 줌)
+			(Web에 유동인구가 많으면 사용하는게 유리함)
+	Last_number (시작값=이제 사용할 번호)
+
+ - 캐쉬를 주지 않고 시작값을 1로 시작하고 최대값은 100까지 변화는 3씩....sample_seq
+
+	create sequence sample_seq nocache maxvalue 100 increment by 3;
+
+시퀀스 확인
+  select * from user_sequences;
+
+시퀀스 값 추출
+	시퀀스명.nextval
+
+	insert into sample(num,name,reg) values(sample_seq.nextval,'김민준',to_date('2021-11-12'));
+	insert into sample values(sample_seq.nextval,'김종국','1976/4/25');
+	insert into sample(reg,num) values(sysdate,sample_seq.nextval);
+
+시퀀스 삭제
+ - drop sequence 시퀀스명;
+
+	drop sequence test_seq;
+
+
+==================================================================================================
+
+데이터 검색
+	select 필드,필드,.... from 테이블명 where 조건;
+데이터 수정
+	update 테이블명 set 컬럼명=값,컬럼명=값,... where 조건;
+데이터 삭제
+	delete 테이블명 where 조건;
+
+=========================================================================
+
+
+데이터 검색
+	select 필드,필드,.... from 테이블명 where 조건;
+
+데이터 전체 검색
+	select * from 테이블명;
+
+==========================================================================
+
+
+조건
+
+1. 숫자
+ - 관계연산자
+ 	<  >  <=  >=  !=  =
+ - 논리 연산자
+	and   or   not
+
+ - 회원 번호가 7번인 회원 검색
+	select * from testmember where no = 7;
+
+ - 회원 번호가 7번이 아닌 회원 검색
+	select * from testmember where no != 7;
+	select * from testmember where not no = 7;
+	select * from testmember where no < 7 or no > 7;
+	select * from testmember where no <> 7;
+
+2. 문자
+ - 일치조건 - =
+	select * from testmember where name='김민준';
+
+ - 포함조건 - like
+	where 필드명 like 값;
+	 - %값  %값%  값%
+  - 김씨 인 회원 검색
+	select * from testmember where name like '김%';
+
+3. 날짜 = 숫자 + 문자
+ - 15년도에 가입한 회원 검색
+	select * from testmember where joindate >= '15/01/01' and joindate <= '15/12/31';
+	select * from testmember where joindate like '15%'
+select * from testmember where joindate >= '15/01/01' and joindate <= to_date('16/01/01') - 1;
+	X select * from testmember where joindate >= '15/01/01' and joindate <= '16/01/01' - 1; 
+
+
+ - 6월 ~ 8월 까지 가입한 회원 검색 - 논리연산자 , like
+
+  select * from testmember where joindate like '%/06/%' or 
+			joindate like '%/07/%' or joindate like '%/08/%';
+
+-------------------------------------------------------------------------------------
+
+between - ~부터 ~까지 사이에 있는것을 구하는 명령 - Oracle
+ - where 필드명 between 값 and 값;
+
+ - 회원 번호가 5 ~ 10인 회원 검색
+	select * from testmember where no between 5 and 10;
+
+ - 김씨 ~ 이씨
+	select * from testmember where name between '김' and '이힣';
+
+ - a ~ d
+	select * from testmember where id between 'a' and 'd';
+
+
+NULL 조건
+ - where 필드명 is null / not null
+	
+	select * from testmember where pw is null;
+
+--------------------------------------------------------------------------------------
+
+order by - 정렬
+ - 무조건 sql문 끝에 적어야 한다...
+ - order by 필드명 정렬상태,필드명 정렬상태...;
+ - 오름차순 asc , 내림차순 desc
+
+	select * from testmember order by money desc;
+
+	select * from testmember where no between 5 and 10 order by money desc;
+
+
+오라클 내장함수
+ - 수치함수
+1.합 - sum(필드명)
+2.평균 - avg(필드명)
+3.최대 - max(필드명)
+4.최소 - min(필드명)
+5.개수 - count(필드명)
+	
+	select 함수명(필드명) from 테이블명;
+
+	select count(pw) from testmember;
+
+	select count(pw) as 개수 from testmember;
+
+
+- 마일리지가 가장 많은 사람의 이름을 출력..
+
+	select * from testmember where money = max(money); X
+
+	select name from testmember where money = (select max(money) from testmember);
+
+---------------------------------------------------------------------------------------
+
+
+데이터 수정
+ - update 테이블명 set 컬럼명=값,컬럼명=값,...  where 조건식;
+
+	1번 회원의 이름을 운영자 로 변경....
+	update testmember set name='운영자',id='admin' where no = 1; 
+
+	14년도에 가입한 회원들에게 마일리지를 10000씩 추가 제공
+	update testmember set money = money + 10000 where joindate like '14%';
+
+데이터 삭제 
+ - delete 테이블명 where 조건식;
+
+============================================================================================
+
+============================================================================================
+
+제약 조건
+ - 내가 원하는 데이터를 유입시키기위한 사용 조건...
+
+ 1. not null - NULL 금지
+create table test2(
+no number not null,
+name varchar2(15) not null,
+gender varchar2(10) not null,
+money number
+);
+
+insert into test2 values(null, null, null, null); 
+insert into test2 values(1, '홍길동', '남자', 100); 
+
+2. unique - 중복금지
+
+create table test3(
+no number unique,
+name varchar2(15) not null,
+gender varchar2(10) not null,
+money number
+);
+
+create table test3(
+no number unique not null,
+name varchar2(15) not null,
+gender varchar2(10) not null,
+money number
+);
+
+insert into test3 values(null, '홍길동', '남자', 100);
+insert into test3 values(1, '홍길동', '남자', 100);
+
+ 3. check - 값에 제한을 주는 조건
+
+create table test5(
+no number primary key,
+name varchar2(15) not null,
+gender varchar2(10) check(gender in('남자','여자')) not null,
+money number
+);
+
+insert into test5 values(1, '홍길동', '남자', 0);
+insert into test5 values(2, '김태희', '여자', 0);
+insert into test5 values(3, '둘리', '???', 0);
+insert into test5 values(4, '또치', null, 0);
+
+ 4. default - 기본값 설정
+create table test6(
+no number primary key,
+name varchar2(15) not null,
+gender varchar2(10) check(gender in('남자','여자')),
+money number default 0
+);
+
+insert into test6 values(1, '장동건', '남자', 0);
+insert into test6 values(2, '김태희', '여자', 100);
+insert into test6 values(3, '원빈', '남자', null);
+insert into test6(no, name, gender) values(4, '둘리', '남자');
+
+ 5. primary key - 기본키
+  - 테이블의 대표 항목
+  - 테이블 당 하나만 가능한 제약 조건
+  - not null + unique
+
+create table test4(
+no number primary key,
+name varchar2(15) not null,
+gender varchar2(10) not null,
+money number
+);
+
+insert into test4 values(null, '강호동', '남자', null);
+insert into test4 values(1, '홍길동', '남자', 100);
+
+ 6. foreign key - 외래키
+  - 기본키를 참조하여 저장되는 제약 조건
+  - 기본키에 값이 존재하지 않으면 데이터 입력 금지..
+
+============================================================================
+
+
+
+
+
+
+
+
+
+
