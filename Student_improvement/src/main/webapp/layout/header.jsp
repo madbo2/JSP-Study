@@ -60,12 +60,12 @@
 
 	<div class="header">
 		<div class="headline">
-				<a href="\student\index.jsp"> 정보 관리 사이트</a>
+				<a href="\Student_improvement\index.jsp"> 정보 관리 사이트</a>
 		</div>
 	</div>	
 	<div align="center">
 		
-			<input type = "button" class="button" value="입력">
+			<input type = "button" class="button" value="입력" onclick="document.location.href='/Student_improvement/insert/code.jsp'">
 		
 			<input type = "button" class="button" value="수정">
 		
