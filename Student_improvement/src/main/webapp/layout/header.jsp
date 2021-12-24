@@ -53,21 +53,21 @@
 	}
 
 </style>
-<title>Insert title here</title>
+<title>정보 관리 페이지</title>
 </head>
 
 <body>
 
 	<div class="header">
 		<div class="headline">
-				<a href="\Student_improvement\index.jsp"> 정보 관리 사이트</a>
+				<a href='\Student_improvement\Index.jsp'> 정보 관리 사이트</a>
 		</div>
 	</div>	
 	<div align="center">
 		
 			<input type = "button" class="button" value="입력" onclick="document.location.href='/Student_improvement/insert/code.jsp'">
 		
-			<input type = "button" class="button" value="수정">
+			<input type = "button" class="button" value="수정" onclick="document.location.href='/Student_improvement/update/code.jsp'">
 		
 			<input type = "button" class="button" value="삭제">	
 		

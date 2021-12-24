@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 
 <%
+	//앞서 전달받은 Attribute값을 String으로 받아와서 화면에 출력합니다.
 	String msg = (String) request.getAttribute("msg");
 %>
 

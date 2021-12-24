@@ -178,7 +178,7 @@ public class Student {
 			System.out.println("수정 작업에 실패하였습니다.");
 		}
 	}
-	
+	//2차 수정 코드
 	private void updateArticle2() {
 		String name  = nameInput("수정할 ");
 		
