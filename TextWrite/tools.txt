@@ -1,0 +1,18 @@
+JDK - JAVA SE 8
+ - java.oracle.com
+ - https://www.oracle.com/java/technologies/downloads/#java8-windows
+
+DB - Oracle 18c XE
+ - www.oracle.com
+ - https://www.oracle.com/database/technologies/express-edition-downloads.html
+ - password : oracle
+
+server - apache tomcat 9.0
+ - tomcat.apache.org
+
+IDE - Eclipse 
+ - eclipse.org
+
+.eclipse
+.m2
+.sts2
