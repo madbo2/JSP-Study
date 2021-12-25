@@ -39,9 +39,10 @@ Student Directory https://github.com/madbo2/JSP-Study/blob/main/Student/src/main
  - javaScript, Document 객체를 이용하여 Dynamic Web function 생성 후 Alert처리
 
 <H6>2021.12.23<br></H6>
- - JSP API 기반 DB Connection Web page 작성. 미리 작성해둔 JAVA 기반 Student Project를 통해 Data처리
- - MVC1 기반, Open CSS 로 View 처리, Insert Function 작성
+ - JSP API 기반 DB Connection Web page 작성. 미리 작성해둔 JAVA 기반 Student Project를 통해 Data처리<br>
+ - MVC1 기반, Open CSS 로 View 처리, Insert Function 작성<br>
+ - https://github.com/madbo2/JSP-Study/blob/main/Student_improvement/src/main/webapp/Index.jsp
  
 <H6>2021.12.24<br></H6>
- - Web page Insert Function 마무리, Java 연동하여 DB에 정상적으로 Insert Function 작동 확인.
+ - Web page Insert Function 마무리, Java 연동하여 DB에 정상적으로 Insert Function 작동 확인.<br>
  - Update Function 작성
