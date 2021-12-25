@@ -37,3 +37,11 @@ Student Directory https://github.com/madbo2/JSP-Study/blob/main/Student/src/main
 <H6>2021.12.22<br></H6>
  - JSP request API POST 기반 예제 페이지 작성. setCharactorEncoding()을 통해 UTF-8로 전달받음. <br>
  - javaScript, Document 객체를 이용하여 Dynamic Web function 생성 후 Alert처리
+
+<H6>2021.12.23<br></H6>
+ - JSP API 기반 DB Connection Web page 작성. 미리 작성해둔 JAVA 기반 Student Project를 통해 Data처리
+ - MVC1 기반, Open CSS 로 View 처리, Insert Function 작성
+ 
+<H6>2021.12.24<br></H6>
+ - Web page Insert Function 마무리, Java 연동하여 DB에 정상적으로 Insert Function 작동 확인.
+ - Update Function 작성
