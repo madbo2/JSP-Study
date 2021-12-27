@@ -1,9 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <% 
-	String name = (String)request.getAttribute("name");
-	String value = (String)request.getAttribute("value");
-	int code = (int)request.getAttribute("code");
+	request.setCharacterEncoding("UTF-8");
+	
+	String name = request.getParameter("name");
+	String value = request.getParameter("value");
+	int code = Integer.parseInt(request.getParameter("code"));
 	String codeValue = null;
 	String strValue = null;
 	
@@ -39,22 +41,7 @@
 
 <%@ include file="/layout/header.jsp" %>		
 <div align="center">
-	<table style="width:250px">
-	<caption align="center"><h4>수정 전 정보</h4></caption>
-		<tr>
-			<th width="25%">Name</th>
-			<td><%=name %></td>
-		</tr>
-		<tr>
-			<th width="25%"><%=strValue %></th>
-			<td><input type="text" name = "code" placeholder="<%=value%>"></td>
-			
-		</tr>
-		<tr>
-			<th width="25%">Code</th>
-			<td><input type="text" name = "value" placeholder="<%=codeValue%>"></td>
-		</tr>
-	</table>
+	
 	<!--  Post방식으로 전달합니다. Attribute에 지정된 Name은 Input Hidden으로 함께 넘겨줍니다. -->
 	<form action = "/Student_improvement/update/update.jsp" method="post" name="input">
 	<input type="hidden" name="name" value="<%=name%>">
@@ -62,12 +49,12 @@
 		<caption align="center"><h4>수정할 내용 입력</h4></caption>
 			<tr>
 				<th width="25%"> Code </th>
-				<td><input type="text" name = "code" placeholder="숫자입력"></td>
+				<td><input type="text" name = "code" placeholder="1.학생 2.교수 3.관리자"></td>
 				
 			</tr>
 			<tr>
 				<th width="25%"> Value </th>
-				<td><input type="text" name = "value" placeholder="1:학번 , 2:과목, 3:부서"></td>
+				<td><input type="text" name = "value" placeholder="value입력"></td>
 			</tr>
 			<tr>
 				<td colspan="2" align="right">

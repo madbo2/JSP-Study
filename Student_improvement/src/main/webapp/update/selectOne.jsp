@@ -21,6 +21,6 @@
 	request.setAttribute("code", dto.getCode());
 	request.setAttribute("value", dto.getvalue());
 	
-	pageContext.forward("/update/form.jsp");
+	pageContext.forward("/update/selectresult.jsp");
 	
 %>
