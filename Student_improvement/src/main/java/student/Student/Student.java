@@ -141,7 +141,7 @@ public class Student {
 		}
 		StudentDAO dao = new StudentDAO();
 		
-		List<StudentDTO> list = dao.select(dto);
+		List<StudentDTO> list = dao.select();
 		
 		if(list == null) {
 			System.out.println("검색 결과가 없습니다.");
@@ -233,7 +233,7 @@ public class Student {
 		StudentDTO dto = new StudentDTO(name);
 		StudentDAO dao = new StudentDAO();
 		
-		boolean check = dao.delete(dto);
+		boolean check = dao.delete(name);
 		
 		if(check) {
 			System.out.println(name + "님의 정보가 삭제 되었습니다.");

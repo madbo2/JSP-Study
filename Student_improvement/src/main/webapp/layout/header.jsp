@@ -69,9 +69,9 @@
 		
 			<input type = "button" class="button" value="수정" onclick="document.location.href='/Student_improvement/update/code.jsp'">
 		
-			<input type = "button" class="button" value="삭제">	
+			<input type = "button" class="button" value="삭제" onclick="document.location.href='/Student_improvement/delete/InputName.jsp'">	
 		
-			<input type = "button" class="button" value="검색">
+			<input type = "button" class="button" value="검색" onclick="document.location.href='/Student_improvement/select/selectchoose.jsp'">
 	
 	</div>
 	<div class="main">

@@ -108,7 +108,7 @@ public class StudentDAO {
 	}
 	//2번째 수정한 코드
 	//전체 검색
-	public List<StudentDTO> selectAll(String name) {
+	public List<StudentDTO> selectAll() {
 		// list 처리를 통해 결과값을 반환함.
 		// DAO원칙은 DAO내부에서 데이터를 출력하면 안됌.
 		ArrayList<StudentDTO> list = new ArrayList<StudentDTO>();
@@ -147,32 +147,89 @@ public class StudentDAO {
 		return list;
 	}
 	
-	public List<StudentDTO> select(StudentDTO dto){
+	// 3차 web에 맞게 수정 전체검색
+	public List<StudentDTO> select(){
 		List<StudentDTO> list = new ArrayList<StudentDTO>();
 		
-		String sql = null;
-		
-		if(dto == null) {
-			sql = "select * from student";
-		} else if(dto.getName() != null) {
-			sql = "select * from student where name like ?";
-		} else {
-			sql = "select * from student where code = ?";
-		}
+		String sql  = "select * from student";
 		
 		try {
 			this.getConnection();
 			ps = con.prepareStatement(sql);
-			if(dto != null) {
-				if(dto.getName() != null) {
-					ps.setString(1,"%"+ dto.getName() + "%");
-				} else {
-					ps.setInt(1, dto.getCode());
-				}
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				StudentDTO dto = new StudentDTO();
+				String name = rs.getString("name");
+				String value = rs.getString("value");
+				int code = rs.getInt("code");
+				
+				list.add(dto);
+			}	
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
 			}
+		}
+		if(list.isEmpty()) {
+			list = null;
+		}
+		return list;
+	}
+	//3차 수정 코드 코드검색
+	public List<StudentDTO> select(int code){
+		List<StudentDTO> list = new ArrayList<StudentDTO>();
+		
+		String sql =  "select * from student where code = ?";
+		
+		try {
+			this.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setInt(1, code);
 			rs = ps.executeQuery();
 			while(rs.next()) {
 				String name = rs.getString("name");
+				String value = rs.getString("value");
+
+				StudentDTO dt = new StudentDTO(name, value, code);
+				
+				list.add(dt);
+			}	
+		}catch (SQLException e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs != null) rs.close();
+				if(ps != null) ps.close();
+				if(con != null) con.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		if(list.isEmpty()) {
+			list = null;
+		}
+		return list;
+	}
+	//3차 web에 맞게 수정 이름검색
+	public List<StudentDTO> select(String name){
+		List<StudentDTO> list = new ArrayList<StudentDTO>();
+		
+		String sql = "select * from student where name like ?";
+		
+		try {
+			this.getConnection();
+			ps = con.prepareStatement(sql);
+			ps.setString(1,"%"+ name + "%");
+			
+			rs = ps.executeQuery();
+			while(rs.next()) {
+				name = rs.getString("name");
 				String value = rs.getString("value");
 				int code = rs.getInt("code");
 				
@@ -275,7 +332,7 @@ public class StudentDAO {
 		return su;
 	}
 	
-	public boolean delete(StudentDTO dto) {
+	public boolean delete(String name) {
 		boolean check = false;
 		
 		String sql = "delete from Student where name=?";
@@ -283,7 +340,8 @@ public class StudentDAO {
 		try {
 			this.getConnection();
 			ps = con.prepareStatement(sql);
-			ps.setString(1, dto.getName());
+			ps.setString(1, name);
+			
 			if(ps.executeUpdate() != 0 ) {
 				check = true;
 			}
