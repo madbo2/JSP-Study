@@ -7,7 +7,7 @@
 	
 	String name = (String)request.getParameter("name");
 	
-	StudentDAO dao = new StudentDAO();
+	StudentDAO dao = StudentDAO.getInstance();
 	
 	boolean check = dao.delete(name);
 	String msg = null;

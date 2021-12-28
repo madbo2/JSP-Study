@@ -9,6 +9,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
 import student.StudentDTO.StudentDTO;
 
 public class StudentDAO {
@@ -16,7 +21,35 @@ public class StudentDAO {
 	private PreparedStatement ps;
 	private ResultSet rs;
 	
-	public StudentDAO() {
+	//singleton 패턴
+	// - Program에서 Instance 공간을 하나만 만들어 놓고
+	// 가져가 사용할 수 있도록 만드는 프로그램 방식
+	private static StudentDAO instance;
+	private StudentDAO() {
+		
+	}
+	public static StudentDAO getInstance() {
+		if(instance == null) {
+			instance = new StudentDAO();
+		}
+		return instance;
+	}
+	
+	//Connection Pool 설정
+	//DataSource 설정
+	private static DataSource ds;
+	
+	static {
+		try {
+			Context context = new InitialContext();
+			ds = (DataSource)context.lookup("java:comp/env/jdbc/oracle");
+			// java:comp/env/  = Tomcat 서버 사용시 설정을 불러올때 사용하는 경로
+	}catch(NamingException e) {
+		e.printStackTrace();
+	}
+	}
+	
+	/*public StudentDAO() {
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
 		} catch(ClassNotFoundException e) {
@@ -35,7 +68,7 @@ public class StudentDAO {
 			e.printStackTrace();
 		}
 	}
-	
+	*/
 	public boolean insert(StudentDTO dto) {
 		boolean check = false;
 		
@@ -43,7 +76,7 @@ public class StudentDAO {
 		
 		
 		try {
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, dto.getName());
 			ps.setString(2, dto.getvalue());
@@ -75,7 +108,7 @@ public class StudentDAO {
 				sql += "'%"+dto.getName()+"%'";
 			}
 			
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			
 			if (choose ==2) ps.setInt(1, dto.getCode());
@@ -116,7 +149,7 @@ public class StudentDAO {
 		String sql = "select * from student";
 		
 		try {
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			
@@ -154,7 +187,7 @@ public class StudentDAO {
 		String sql  = "select * from student";
 		
 		try {
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while(rs.next()) {
@@ -188,7 +221,7 @@ public class StudentDAO {
 		String sql =  "select * from student where code = ?";
 		
 		try {
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, code);
 			rs = ps.executeQuery();
@@ -223,7 +256,7 @@ public class StudentDAO {
 		String sql = "select * from student where name like ?";
 		
 		try {
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1,"%"+ name + "%");
 			
@@ -277,7 +310,7 @@ public class StudentDAO {
 		String sql = "select * from student where name = ?";
 		
 		try {
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, name);
 			rs = ps.executeQuery();
@@ -312,7 +345,7 @@ public class StudentDAO {
 		int su = 0;
 		
 		try {
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setInt(1, dto.getCode());
 			ps.setString(2, dto.getvalue());
@@ -338,7 +371,7 @@ public class StudentDAO {
 		String sql = "delete from Student where name=?";
 		
 		try {
-			this.getConnection();
+			con = ds.getConnection();
 			ps = con.prepareStatement(sql);
 			ps.setString(1, name);
 			

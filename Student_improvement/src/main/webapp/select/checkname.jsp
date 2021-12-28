@@ -10,7 +10,7 @@
 
 	String name = request.getParameter("name");
 	
-	StudentDAO dao = new StudentDAO();
+	StudentDAO dao = StudentDAO.getInstance();
 	
 	List<StudentDTO> list = dao.select(name);
 	

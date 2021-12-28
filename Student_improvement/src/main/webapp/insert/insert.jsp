@@ -17,7 +17,7 @@
 	// 앞서 작성한 Java 기반의 Data 처리 객체들을 지정하고 JDBC를 통해 DB에 추가시켜 줍니다.
 	StudentDTO dto = new StudentDTO(name, value, code);
 	
-	StudentDAO dao = new StudentDAO();
+	StudentDAO dao = StudentDAO.getInstance();
 	
 	boolean check = dao.insert(dto);
 	

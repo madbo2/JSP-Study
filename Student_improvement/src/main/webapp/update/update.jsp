@@ -12,7 +12,7 @@
 	
 	StudentDTO dto = new StudentDTO(name, value, code);
 	
-	StudentDAO dao = new StudentDAO();
+	StudentDAO dao = StudentDAO.getInstance();
 	
 	int check = dao.update(dto);
 	

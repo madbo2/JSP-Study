@@ -69,7 +69,7 @@ public class Student {
 		
 		StudentDTO dto = new StudentDTO(name, value, code);
 		
-		StudentDAO dao = new StudentDAO();
+		StudentDAO dao = StudentDAO.getInstance();
 		
 		boolean check = dao.insert(dto);		//결과창 출력을 위한 Boolean
 		
@@ -96,16 +96,16 @@ public class Student {
 		if(choose==1) {
 			String name = nameInput("검색할");
 			StudentDTO dto = new StudentDTO(name);
-			StudentDAO dao = new StudentDAO();
+			StudentDAO dao = StudentDAO.getInstance();
 			dao.select(dto, choose);
 		} else if( choose==2) {
 			int code = codeInput();
 			StudentDTO dto = new StudentDTO(code);
-			StudentDAO dao = new StudentDAO();
+			StudentDAO dao = StudentDAO.getInstance();
 			dao.select(dto,choose);
 		} else {
 			StudentDTO dto = new StudentDTO();
-			StudentDAO dao = new StudentDAO();
+			StudentDAO dao = StudentDAO.getInstance();
 			dao.select(dto,choose);
 		}
 	}
@@ -139,7 +139,7 @@ public class Student {
 			dto = new StudentDTO();
 			dto.setCode(code);
 		}
-		StudentDAO dao = new StudentDAO();
+		StudentDAO dao = StudentDAO.getInstance();
 		
 		List<StudentDTO> list = dao.select();
 		
@@ -166,7 +166,7 @@ public class Student {
 		String value = valueInput(code);
 		
 		StudentDTO dto = new StudentDTO(name,value, code);
-		StudentDAO dao = new StudentDAO();
+		StudentDAO dao = StudentDAO.getInstance();
 		
 		dao.select(dto, 1);
 		
@@ -182,7 +182,7 @@ public class Student {
 	private void updateArticle2() {
 		String name  = nameInput("수정할 ");
 		
-		StudentDAO dao = new StudentDAO();
+		StudentDAO dao = StudentDAO.getInstance();
 		
 		StudentDTO dto = dao.selectOne(name); // 1개의 레코드만검색하는 메소드
 		
@@ -231,7 +231,7 @@ public class Student {
 		String name = nameInput("");
 		
 		StudentDTO dto = new StudentDTO(name);
-		StudentDAO dao = new StudentDAO();
+		StudentDAO dao = StudentDAO.getInstance();
 		
 		boolean check = dao.delete(name);
 		

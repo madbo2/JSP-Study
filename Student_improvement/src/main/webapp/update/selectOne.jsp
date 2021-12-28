@@ -7,7 +7,7 @@
 
 	String name = request.getParameter("name");
 	
-	StudentDAO dao = new StudentDAO();
+	StudentDAO dao = StudentDAO.getInstance();
 	
 	StudentDTO dto = dao.selectOne(name);
 	

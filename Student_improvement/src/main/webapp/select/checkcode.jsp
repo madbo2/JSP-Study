@@ -6,7 +6,7 @@
 <%
 	int code = Integer.parseInt(request.getParameter("code"));
 
-	StudentDAO dao = new StudentDAO();
+	StudentDAO dao = StudentDAO.getInstance();
 	
 	List<StudentDTO> list = dao.select(code);
 	
