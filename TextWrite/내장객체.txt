@@ -1,0 +1,10 @@
+내장 객체
+
+
+2 pageScope : pageContext 기본 객체에 저장된 속성의 <속성, 값> 매핑을 저장한 Map 객체 
+3 requestScope : request 기본 객체에 저장된 속성의 <속성, 값> 매핑을 저장한 Map 객체 
+4 sessionScope : session 기본 객체에 저장된 속성의 <속성, 값> 매핑을 저장한 Map 객체  
+5 applicationScope : 
+    application 기본 객체에 저장된 속성의 <속성, 값> 매핑을 저장한 Map 객체 
+
+각각에 내장되어있는 Attribute값을 바로 뽑아올 수 있다.
