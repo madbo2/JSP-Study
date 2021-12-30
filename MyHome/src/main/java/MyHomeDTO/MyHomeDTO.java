@@ -13,6 +13,28 @@ public class MyHomeDTO {
 	public MyHomeDTO() {
 		
 	}
+	public MyHomeDTO(String id, String password, String name, String email, String tel1, String tel2, String tel3) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.email = email;
+		this.tel1 = tel1;
+		this.tel2 = tel2;
+		this.tel3 = tel3;
+	}
+	public MyHomeDTO(int no, String id, String password, String name, String email, String tel1, String tel2,
+			String tel3) {
+		super();
+		this.no = no;
+		this.id = id;
+		this.password = password;
+		this.name = name;
+		this.email = email;
+		this.tel1 = tel1;
+		this.tel2 = tel2;
+		this.tel3 = tel3;
+	}
 	
 	public void setNo(int no) {
 		this.no = no;
