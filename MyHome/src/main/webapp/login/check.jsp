@@ -1,5 +1,5 @@
-<%@page import="MyHomeDAO.MyHomeDAO"%>
-<%@page import="MyHomeDTO.MyHomeDTO"%>
+<%@page import="myhomedao.MyHomeDAO"%>
+<%@page import="myhomedto.MyHomeDTO"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -17,17 +17,17 @@
 	
 	MyHomeDAO dao = MyHomeDAO.getInstance();
 	
-	String name = dao.checkLogin(dto);
+	dto = dao.checkLogin(dto);
 	
 	boolean check = false;
 	String msg = null;
 	
-	if(name != null){
-		msg = name + "님이 로그인 하셨습니다.";
+	if(dto != null){
+		msg = dto.getName() + "님이 로그인 하셨습니다.";
 		check = true;
 		
 		//로그인 처리...
-		session.setAttribute("login", id);
+		session.setAttribute("login", dto);
 		
 		//쿠키파일 생성 유무
 		
