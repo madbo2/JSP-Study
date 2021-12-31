@@ -18,6 +18,11 @@
 	MyHomeDAO dao = MyHomeDAO.getInstance();
 	
 	dto = dao.checkLogin(dto);
+/* 	System.out.println(dto.getName());
+	System.out.println(dto.getId());
+	System.out.println(dto.getPassword());
+	System.out.println(dto.getTel1());
+	System.out.println(dto.getNo()); */
 	
 	boolean check = false;
 	String msg = null;

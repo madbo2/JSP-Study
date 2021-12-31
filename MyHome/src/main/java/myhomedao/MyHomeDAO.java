@@ -81,7 +81,7 @@ public class MyHomeDAO {
 			ps = con.prepareStatement(sql);
 			ps.setString(1, dto.getId());
 			ps.setString(2, dto.getPassword());
-			rs = ps.executeQuery();
+			rs = ps.executeQuery(); // here
 			dto = makeDTO(rs);
 		}catch(SQLException e) {
 			e.printStackTrace();
@@ -106,6 +106,7 @@ public class MyHomeDAO {
 			if(rs.next()) {
 				dto = new MyHomeDTO();
 				dto.setNo(rs.getInt("no"));
+				
 				dto.setId(rs.getString("id"));
 				dto.setPassword(rs.getString("password"));
 				dto.setName(rs.getString("name"));
