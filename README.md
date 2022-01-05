@@ -46,3 +46,12 @@ Student Directory https://github.com/madbo2/JSP-Study/blob/main/Student/src/main
 <H6>2021.12.24<br></H6>
  - Web page Insert Function 마무리, Java 연동하여 DB에 정상적으로 Insert Function 작동 확인.<br>
  - Update Function 작성
+
+<H6>2021.12.27<br></H6>
+ - JavaScript 작성문 -> JSTL로 변경. JSTL의 Context, web 등 XML File 작성
+ - Select Function 작성
+
+<H6>2021.12.28<br></H6>
+ - SingleTon Pattern Connection 객체 작성. 동작원리 확인.
+ - Delete Function 작성.
+
