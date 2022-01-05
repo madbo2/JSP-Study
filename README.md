@@ -55,3 +55,20 @@ Student Directory https://github.com/madbo2/JSP-Study/blob/main/Student/src/main
  - SingleTon Pattern Connection 객체 작성. 동작원리 확인.
  - Delete Function 작성.
 
+<H6>2021.12.29<br></H6>
+ - Login 처리 예제 Web 작성. CSS을 통한 LayOut 작성
+ - Session, Cookie 학습
+ - SingleTon Pattern 기반 Connection Java Program 작성
+ - https://github.com/madbo2/JSP-Study/tree/main/MyHome
+
+<H6>2021.12.30<br></H6>
+ - Web 처리 부분 작성. 
+ - 내장객체를 통해 Cookie를 통한 Login 저장 처리. Session을 통한 Login 유지 처리
+ - 내장객체를 통한 DATA 전달 흐름 파악, 작성
+ - 각 기능별 Web 페이지 View 작성
+ - DB에 접근 가능한 여러 Function 페이지 작성.
+
+<H6>2021.12.31<br></H6>
+ - 각 요구사항 별 Function 작성
+ - Update, Delete, Join 을 위한 DAO 를 끌어와서 작성
+ - Web 작동 확인. 
